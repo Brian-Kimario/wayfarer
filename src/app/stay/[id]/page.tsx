@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getStay } from "@/lib/stays";
 import { formatMoney } from "@/lib/format";
+import { Container, Card, Rating, Badge } from "@/components";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +11,10 @@ interface StayDetailPageProps {
   searchParams: Promise<Record<string, string>>;
 }
 
-export default async function StayDetailPage({ params, searchParams }: StayDetailPageProps) {
+export default async function StayDetailPage({
+  params,
+  searchParams,
+}: StayDetailPageProps) {
   const { id } = await params;
   const query = await searchParams;
 
@@ -19,9 +23,9 @@ export default async function StayDetailPage({ params, searchParams }: StayDetai
 
   if (!stay) {
     return (
-      <div className="flex-1 max-w-6xl mx-auto px-4 py-8">
-        <p>Property not found</p>
-      </div>
+      <Container className="py-12">
+        <p style={{ color: "var(--color-ink)" }}>Property not found</p>
+      </Container>
     );
   }
 
@@ -30,150 +34,249 @@ export default async function StayDetailPage({ params, searchParams }: StayDetai
   const guests = query.guests || "2";
   const rooms = query.rooms || "1";
 
+  const nights =
+    checkIn && checkOut
+      ? Math.ceil(
+          (new Date(checkOut).getTime() - new Date(checkIn).getTime()) /
+            (1000 * 60 * 60 * 24)
+        )
+      : 1;
+
   return (
-    <div className="flex-1" style={{ backgroundColor: "var(--page)" }}>
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="bg-white rounded border p-6 mb-6" style={{ borderColor: "var(--line)" }}>
+    <div style={{ backgroundColor: "var(--color-ivory)" }}>
+      {/* Property Header */}
+      <section
+        className="py-8 md:py-12"
+        style={{ backgroundColor: "var(--color-surface)" }}
+      >
+        <Container>
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h1 className="text-3xl font-bold" style={{ color: "var(--ink)" }}>
+              <h1
+                className="text-4xl md:text-5xl font-bold mb-2"
+                style={{ color: "var(--color-ink)" }}
+              >
                 {stay.name}
               </h1>
-              <p className="text-sm" style={{ color: "var(--muted)" }}>
+              <p
+                className="text-lg"
+                style={{ color: "var(--color-muted)" }}
+              >
                 {stay.address}
               </p>
             </div>
             {stay.rating && (
-              <div
-                className="px-4 py-2 rounded text-white text-2xl font-bold"
-                style={{ backgroundColor: "var(--brand)" }}
-              >
-                {stay.rating.avg_score?.toFixed(1) || "—"}
+              <div>
+                <Rating
+                  score={stay.rating.avg_score || 0}
+                  count={stay.reviews?.length}
+                  size="lg"
+                />
               </div>
             )}
           </div>
 
-          <p className="text-sm mb-4" style={{ color: "var(--ink)" }}>
-            {stay.type} • {stay.stars} stars • {stay.distance_center_km} km from centre
-          </p>
+          <div className="flex flex-wrap gap-2 mb-4">
+            <Badge variant="primary">{stay.type}</Badge>
+            <Badge variant="info">
+              {stay.stars} stars
+            </Badge>
+            <Badge variant="info">
+              {stay.distance_center_km} km from centre
+            </Badge>
+          </div>
 
-          <p className="text-sm" style={{ color: "var(--ink)" }}>
+          <p
+            className="text-lg leading-relaxed"
+            style={{ color: "var(--color-ink)" }}
+          >
             {stay.description}
           </p>
+        </Container>
+      </section>
 
+      {/* Main Content */}
+      <main className="py-12 md:py-16">
+        <Container>
+          {/* Amenities */}
           {stay.amenities && stay.amenities.length > 0 && (
-            <div className="mt-4">
-              <p className="text-sm font-bold mb-2" style={{ color: "var(--ink)" }}>
+            <section className="mb-12">
+              <h2
+                className="text-2xl font-bold mb-6"
+                style={{ color: "var(--color-ink)" }}
+              >
                 Amenities
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {stay.amenities.map((amenity: string) => (
-                  <span
-                    key={amenity}
-                    className="text-xs px-2 py-1 rounded"
-                    style={{ backgroundColor: "var(--page)", color: "var(--muted)" }}
-                  >
-                    {amenity}
-                  </span>
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {stay.amenities.map((amenity: string, idx: number) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <span className="text-2xl">✓</span>
+                    <span style={{ color: "var(--color-ink)" }}>
+                      {amenity}
+                    </span>
+                  </div>
                 ))}
               </div>
-            </div>
+            </section>
           )}
-        </div>
 
-        <div className="bg-white rounded border overflow-hidden" style={{ borderColor: "var(--line)" }}>
-          <table className="w-full">
-            <thead style={{ backgroundColor: "var(--page)" }}>
-              <tr>
-                <th className="text-left px-4 py-3 text-sm font-bold" style={{ color: "var(--ink)" }}>
-                  Room type
-                </th>
-                <th className="text-left px-4 py-3 text-sm font-bold" style={{ color: "var(--ink)" }}>
-                  Sleeps
-                </th>
-                <th className="text-left px-4 py-3 text-sm font-bold" style={{ color: "var(--ink)" }}>
-                  Meal plan
-                </th>
-                <th className="text-left px-4 py-3 text-sm font-bold" style={{ color: "var(--ink)" }}>
-                  Price ({query.check_in && query.check_out ? `${(new Date(query.check_out as string).getTime() - new Date(query.check_in as string).getTime()) / (1000 * 60 * 60 * 24)} nights` : "per night"})
-                </th>
-                <th className="text-left px-4 py-3 text-sm font-bold" style={{ color: "var(--ink)" }}>
-                  Rooms left
-                </th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {stay.room_types.map((room: any) => (
-                <tr key={room.id} style={{ borderTop: `1px solid var(--line)` }}>
-                  <td className="px-4 py-3 text-sm" style={{ color: "var(--ink)" }}>
-                    {room.name}
-                  </td>
-                  <td className="px-4 py-3 text-sm" style={{ color: "var(--ink)" }}>
-                    {room.max_guests}
-                  </td>
-                  <td className="px-4 py-3 text-sm" style={{ color: "var(--ink)" }}>
-                    {room.meal_plan}
-                  </td>
-                  <td className="px-4 py-3 text-sm" style={{ color: "var(--ink)" }}>
-                    {room.total_price ? formatMoney(room.total_price) : formatMoney(room.price_per_night)}
-                  </td>
-                  <td className="px-4 py-3 text-sm" style={{ color: "var(--ink)" }}>
-                    {room.available ? room.rooms_left : <span style={{ color: "var(--muted)" }}>Sold out</span>}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    {room.available && checkIn && checkOut ? (
-                      <Link
-                        href={`/checkout?room_type_id=${room.id}&check_in=${checkIn}&check_out=${checkOut}&guests=${guests}&rooms=${rooms}`}
-                        className="text-sm px-4 py-2 rounded text-white"
-                        style={{ backgroundColor: "var(--action)" }}
-                      >
-                        Reserve
-                      </Link>
-                    ) : (
-                      <span className="text-xs" style={{ color: "var(--muted)" }}>
-                        Not available
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {stay.reviews && stay.reviews.length > 0 && (
-          <div className="mt-6">
-            <h2 className="text-xl font-bold mb-4" style={{ color: "var(--ink)" }}>
-              Recent reviews ({stay.reviews.length})
+          {/* Room Selection Table */}
+          <section className="mb-12">
+            <h2
+              className="text-2xl font-bold mb-6"
+              style={{ color: "var(--color-ink)" }}
+            >
+              Select room
             </h2>
-            <div className="space-y-4">
-              {stay.reviews.map((review: any) => (
-                <div
-                  key={review.id}
-                  className="bg-white rounded border p-4"
-                  style={{ borderColor: "var(--line)" }}
-                >
-                  <div className="flex justify-between mb-2">
-                    <p className="font-bold" style={{ color: "var(--ink)" }}>
-                      {review.author_name}
-                    </p>
-                    <p className="font-bold" style={{ color: "var(--brand)" }}>
-                      {review.score.toFixed(1)}
-                    </p>
-                  </div>
-                  <p className="font-500 text-sm mb-1" style={{ color: "var(--ink)" }}>
-                    {review.title}
-                  </p>
-                  <p className="text-sm" style={{ color: "var(--muted)" }}>
-                    {review.body}
-                  </p>
-                </div>
-              ))}
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead style={{ backgroundColor: "var(--color-surface)" }}>
+                  <tr>
+                    <th
+                      className="text-left px-4 py-3 text-sm font-bold"
+                      style={{ color: "var(--color-ink)" }}
+                    >
+                      Room type
+                    </th>
+                    <th
+                      className="text-left px-4 py-3 text-sm font-bold"
+                      style={{ color: "var(--color-ink)" }}
+                    >
+                      Sleeps
+                    </th>
+                    <th
+                      className="text-left px-4 py-3 text-sm font-bold"
+                      style={{ color: "var(--color-ink)" }}
+                    >
+                      Meal plan
+                    </th>
+                    <th
+                      className="text-left px-4 py-3 text-sm font-bold"
+                      style={{ color: "var(--color-ink)" }}
+                    >
+                      Price
+                    </th>
+                    <th
+                      className="text-left px-4 py-3 text-sm font-bold"
+                      style={{ color: "var(--color-ink)" }}
+                    >
+                      Available
+                    </th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  {stay.room_types.map((room: any) => (
+                    <tr
+                      key={room.id}
+                      style={{
+                        borderBottom: `1px solid var(--color-border)`,
+                      }}
+                    >
+                      <td
+                        className="px-4 py-3 text-sm font-medium"
+                        style={{ color: "var(--color-ink)" }}
+                      >
+                        {room.name}
+                      </td>
+                      <td
+                        className="px-4 py-3 text-sm"
+                        style={{ color: "var(--color-ink)" }}
+                      >
+                        {room.max_guests}
+                      </td>
+                      <td
+                        className="px-4 py-3 text-sm"
+                        style={{ color: "var(--color-ink)" }}
+                      >
+                        {room.meal_plan.replace("_", " ")}
+                      </td>
+                      <td
+                        className="px-4 py-3 text-sm font-bold"
+                        style={{ color: "var(--color-ink)" }}
+                      >
+                        {room.total_price
+                          ? formatMoney(room.total_price)
+                          : formatMoney(room.price_per_night)}
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        {room.available ? (
+                          <Badge variant="success">
+                            {room.rooms_left} left
+                          </Badge>
+                        ) : (
+                          <Badge variant="error">Sold out</Badge>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        {room.available && checkIn && checkOut ? (
+                          <Link
+                            href={`/checkout?room_type_id=${room.id}&check_in=${checkIn}&check_out=${checkOut}&guests=${guests}&rooms=${rooms}`}
+                          >
+                            <button
+                              className="px-4 py-2 bg-[var(--color-ocean-700)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-ocean-950)] transition-colors"
+                            >
+                              Select
+                            </button>
+                          </Link>
+                        ) : (
+                          <span
+                            className="text-xs"
+                            style={{ color: "var(--color-muted)" }}
+                          >
+                            Unavailable
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </div>
-        )}
-      </div>
+          </section>
+
+          {/* Reviews */}
+          {stay.reviews && stay.reviews.length > 0 && (
+            <section>
+              <h2
+                className="text-2xl font-bold mb-6"
+                style={{ color: "var(--color-ink)" }}
+              >
+                Guest reviews ({stay.reviews.length})
+              </h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                {stay.reviews.slice(0, 6).map((review: any) => (
+                  <Card key={review.id}>
+                    <div className="p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3
+                          className="font-bold"
+                          style={{ color: "var(--color-ink)" }}
+                        >
+                          {review.author_name}
+                        </h3>
+                        <Rating score={review.score} size="sm" showLabel />
+                      </div>
+                      <p
+                        className="font-semibold text-sm mb-2"
+                        style={{ color: "var(--color-ink)" }}
+                      >
+                        {review.title}
+                      </p>
+                      <p
+                        className="text-sm"
+                        style={{ color: "var(--color-muted)" }}
+                      >
+                        {review.body}
+                      </p>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          )}
+        </Container>
+      </main>
     </div>
   );
 }
