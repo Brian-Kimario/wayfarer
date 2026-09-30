@@ -81,7 +81,7 @@ export default async function StaysSearchPage({
 
           {results.total === 0 ? (
             <EmptyState
-              icon="🔍"
+              icon="search"
               title="No properties found"
               description="Try adjusting your search dates, location, or number of guests."
               action={{

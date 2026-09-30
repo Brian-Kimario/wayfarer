@@ -13,7 +13,7 @@ export default function Container({
 }: ContainerProps) {
   const sizeStyles: Record<string, string> = {
     narrow: "max-w-2xl",
-    page: "max-w-6xl",
+    page: "max-w-7xl",
     full: "w-full",
   };
 
@@ -22,7 +22,7 @@ export default function Container({
       className={`
         mx-auto
         ${sizeStyles[size]}
-        px-4 md:px-6
+        px-4 md:px-6 lg:px-8
         ${className}
       `}
     >

@@ -26,3 +26,28 @@ export { default as Modal } from "./Modal";
 export { default as LoadingSkeleton } from "./LoadingSkeleton";
 export { default as EmptyState } from "./EmptyState";
 export { default as ErrorState } from "./ErrorState";
+
+// Icon components
+export {
+  BeachIcon,
+  PalmTreeIcon,
+  LionIcon,
+  CityIcon,
+  TempleIcon,
+  PalaceIcon,
+  EiffelTowerIcon,
+  HotelIcon,
+  WorldIcon,
+  MoneyIcon,
+  ListIcon,
+  AirplaneIcon,
+  CalendarIcon,
+  GuestsIcon,
+  RoomsIcon,
+  HeartIcon,
+  SearchIcon,
+  WarningIcon,
+  CheckmarkIcon,
+  CancelIcon,
+  TakeoffIcon,
+} from "./Icons";

@@ -6,7 +6,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Container, Card, Badge, Button, Modal, HeroImage } from '@/components';
+import { Container, Card, Badge, Button, Modal, HeroImage, AirplaneIcon, HotelIcon } from '@/components';
 import { formatMoney, formatDate } from '@/lib/format';
 
 interface TripLeg {
@@ -272,7 +272,9 @@ export default function TripsPage() {
 
           {filteredTrips.length === 0 ? (
             <div className="text-center py-12">
-              <div className="text-5xl mb-4">✈️</div>
+              <div className="flex justify-center mb-4">
+                <AirplaneIcon size={48} color="var(--color-ocean-700)" />
+              </div>
               <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--color-ink)' }}>
                 No trips yet
               </h2>
@@ -324,7 +326,11 @@ export default function TripsPage() {
                           <div className="space-y-2">
                             {trip.legs.map((leg, idx) => (
                               <div key={leg.id} className="flex items-center gap-2 text-sm">
-                                <span>{leg.type === 'flight' ? '✈️' : '🏨'}</span>
+                                {leg.type === 'flight' ? (
+                                  <AirplaneIcon size={18} color="var(--color-ocean-700)" />
+                                ) : (
+                                  <HotelIcon size={18} color="var(--color-ocean-700)" />
+                                )}
                                 <span style={{ color: 'var(--color-muted)' }}>
                                   {leg.type === 'flight'
                                     ? leg.details.departure + ' → ' + leg.details.arrival
@@ -415,9 +421,13 @@ export default function TripsPage() {
                   <div key={leg.id} className="p-4 bg-gray-50 rounded-lg">
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-xl">
-                          {leg.type === 'flight' ? '✈️' : '🏨'}
-                        </span>
+                        <div>
+                          {leg.type === 'flight' ? (
+                            <AirplaneIcon size={24} color="var(--color-ocean-700)" />
+                          ) : (
+                            <HotelIcon size={24} color="var(--color-ocean-700)" />
+                          )}
+                        </div>
                         <div>
                           <p className="font-bold" style={{ color: 'var(--color-ink)' }}>
                             {leg.type === 'flight' ? 'Flight' : 'Stay'}

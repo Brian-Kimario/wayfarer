@@ -184,7 +184,7 @@ export default function WishlistPage() {
             </div>
           ) : wishlist.length === 0 ? (
             <EmptyState
-              icon="❤️"
+              icon="heart"
               title="No saved stays yet"
               description="Save places you like while exploring. Your saved stays will appear here."
               action={{

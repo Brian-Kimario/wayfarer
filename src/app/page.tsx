@@ -7,6 +7,16 @@ import {
   HeroImage,
   PropertyCardWithImage,
   EmptyState,
+  BeachIcon,
+  PalmTreeIcon,
+  LionIcon,
+  CityIcon,
+  TempleIcon,
+  PalaceIcon,
+  EiffelTowerIcon,
+  WorldIcon,
+  MoneyIcon,
+  ListIcon,
 } from "@/components";
 import { createClient } from "@/lib/supabase/server";
 import { formatMoney } from "@/lib/format";
@@ -73,56 +83,56 @@ export default async function Home() {
       name: "Dar es Salaam",
       country: "Tanzania",
       properties: 12,
-      emoji: "🏝️",
+      icon: "beach",
       imageColor: "200",
     },
     {
       name: "Zanzibar",
       country: "Tanzania",
       properties: 18,
-      emoji: "🌴",
+      icon: "palm",
       imageColor: "200",
     },
     {
       name: "Nairobi",
       country: "Kenya",
       properties: 24,
-      emoji: "🦁",
+      icon: "lion",
       imageColor: "45",
     },
     {
       name: "Dubai",
       country: "UAE",
       properties: 42,
-      emoji: "🏙️",
+      icon: "city",
       imageColor: "30",
     },
     {
       name: "Chandigarh",
       country: "India",
       properties: 8,
-      emoji: "🕌",
+      icon: "temple",
       imageColor: "60",
     },
     {
       name: "Delhi",
       country: "India",
       properties: 28,
-      emoji: "🏛️",
+      icon: "palace",
       imageColor: "60",
     },
     {
       name: "Paris",
       country: "France",
       properties: 56,
-      emoji: "🗼",
+      icon: "eiffel",
       imageColor: "280",
     },
     {
       name: "Istanbul",
       country: "Turkey",
       properties: 31,
-      emoji: "🕌",
+      icon: "temple",
       imageColor: "200",
     },
   ];
@@ -140,17 +150,17 @@ export default async function Home() {
       {/* Main Content */}
       <main style={{ backgroundColor: "var(--color-ivory)" }}>
         {/* Popular Destinations */}
-        <section className="py-12 md:py-16 lg:py-20">
+        <section className="py-10 md:py-12 lg:py-14">
           <Container>
-            <div className="mb-12">
+            <div className="mb-8">
               <h2
-                className="text-3xl md:text-4xl font-bold mb-3"
+                className="text-3xl md:text-4xl font-bold mb-2"
                 style={{ color: "var(--color-ink)" }}
               >
                 Explore destinations
               </h2>
               <p
-                className="text-lg"
+                className="text-base md:text-lg"
                 style={{ color: "var(--color-muted)" }}
               >
                 Discover some of the world's most incredible places to visit.
@@ -162,19 +172,19 @@ export default async function Home() {
 
         {/* Popular Stays Section */}
         <section
-          className="py-12 md:py-16 lg:py-20"
+          className="py-10 md:py-12 lg:py-14"
           style={{ backgroundColor: "var(--color-surface)" }}
         >
           <Container>
-            <div className="mb-12">
+            <div className="mb-8">
               <h2
-                className="text-3xl md:text-4xl font-bold mb-3"
+                className="text-3xl md:text-4xl font-bold mb-2"
                 style={{ color: "var(--color-ink)" }}
               >
                 Popular stays
               </h2>
               <p
-                className="text-lg"
+                className="text-base md:text-lg"
                 style={{ color: "var(--color-muted)" }}
               >
                 Find a place that fits your travel style.
@@ -182,7 +192,7 @@ export default async function Home() {
             </div>
 
             {popularStays.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
                 {popularStays.map((stay) => (
                   <PropertyCardWithImage
                     key={stay.id}
@@ -202,7 +212,7 @@ export default async function Home() {
               </div>
             ) : (
               <EmptyState
-                icon="🏨"
+                icon="hotel"
                 title="No stays available"
                 description="Check back soon for popular stays in your favorite destinations."
               />
@@ -211,49 +221,64 @@ export default async function Home() {
         </section>
 
         {/* Why Wayfarer Section */}
-        <section className="py-12 md:py-16 lg:py-20">
+        <section className="py-12 md:py-14 lg:py-16">
           <Container>
-            <div className="mb-12 text-center">
+            <div className="mb-10 text-center">
               <h2
-                className="text-3xl md:text-4xl font-bold mb-3"
+                className="text-3xl md:text-4xl font-bold mb-2"
                 style={{ color: "var(--color-ink)" }}
               >
                 Why choose Wayfarer?
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8 md:gap-6">
               {[
                 {
-                  icon: "🌍",
+                  icon: WorldIcon,
                   title: "Everything for the trip",
                   description:
                     "Search stays and flights in one place. Build your entire itinerary without switching sites.",
+                  gradient: "135deg, hsl(200, 60%, 55%), hsl(200, 70%, 40%)"
                 },
                 {
-                  icon: "💰",
+                  icon: MoneyIcon,
                   title: "Know the price",
                   description:
                     "See taxes and totals before booking. No hidden fees, no surprises at checkout.",
+                  gradient: "135deg, hsl(30, 70%, 55%), hsl(30, 80%, 40%)"
                 },
                 {
-                  icon: "📋",
+                  icon: ListIcon,
                   title: "Keep your plans together",
                   description:
                     "Save bookings and organize them into trips. Easy access to all your reservations.",
+                  gradient: "135deg, hsl(160, 60%, 50%), hsl(160, 70%, 35%)"
                 },
               ].map((item, idx) => (
-                <div key={idx} className="text-center">
-                  <div className="text-5xl mb-4">{item.icon}</div>
-                  <h3
-                    className="text-xl font-bold mb-2"
-                    style={{ color: "var(--color-ink)" }}
+                <div key={idx} className="h-72 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all group cursor-pointer">
+                  {/* Background with gradient */}
+                  <div
+                    className="h-full flex flex-col justify-between p-8 relative group-hover:scale-105 transition-transform duration-300"
+                    style={{
+                      backgroundImage: `linear-gradient(${item.gradient})`
+                    }}
                   >
-                    {item.title}
-                  </h3>
-                  <p style={{ color: "var(--color-muted)" }}>
-                    {item.description}
-                  </p>
+                    {/* Icon */}
+                    <div className="flex justify-center opacity-20">
+                      <item.icon size={64} color="white" />
+                    </div>
+
+                    {/* Text Content */}
+                    <div className="text-white text-center">
+                      <h3 className="text-2xl font-bold mb-3">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed opacity-95">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -262,7 +287,7 @@ export default async function Home() {
 
         {/* Footer CTA */}
         <section
-          className="py-12 md:py-16 lg:py-20"
+          className="py-10 md:py-12 lg:py-14"
           style={{ backgroundColor: "var(--color-ocean-950)" }}
         >
           <Container>
@@ -292,7 +317,7 @@ export default async function Home() {
 
         {/* Footer */}
         <footer
-          className="py-12 md:py-16 border-t"
+          className="py-10 md:py-12 border-t"
           style={{
             backgroundColor: "var(--color-ivory)",
             borderColor: "var(--color-border)",

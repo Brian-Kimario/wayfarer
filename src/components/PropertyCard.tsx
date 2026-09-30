@@ -5,6 +5,7 @@ import { formatMoney } from "@/lib/format";
 import Card from "./Card";
 import Rating from "./Rating";
 import Badge from "./Badge";
+import { HotelIcon } from "./Icons";
 
 interface PropertyCardProps {
   id: number;
@@ -67,7 +68,7 @@ export default function PropertyCard({
           />
         ) : (
           <div
-            className="w-full h-full flex items-center justify-center text-4xl"
+            className="w-full h-full flex items-center justify-center"
             style={{
               backgroundColor: imageColor
                 ? `hsl(${imageColor} 20% 72%)`
@@ -76,7 +77,7 @@ export default function PropertyCard({
             role="img"
             aria-label={`Property image placeholder for ${name}`}
           >
-            🏨
+            <HotelIcon size={48} color="var(--color-ocean-700)" />
           </div>
         )}
         {limited && (

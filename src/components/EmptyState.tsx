@@ -1,8 +1,9 @@
 import React from "react";
 import Button from "./Button";
+import { HotelIcon, SearchIcon } from "./Icons";
 
 interface EmptyStateProps {
-  icon?: React.ReactNode;
+  icon?: React.ReactNode | string;
   title: string;
   description: string;
   action?: {
@@ -13,6 +14,11 @@ interface EmptyStateProps {
   className?: string;
 }
 
+const iconMap: { [key: string]: React.ComponentType<any> } = {
+  hotel: HotelIcon,
+  search: SearchIcon,
+};
+
 export default function EmptyState({
   icon,
   title,
@@ -20,6 +26,15 @@ export default function EmptyState({
   action,
   className = "",
 }: EmptyStateProps) {
+  let iconElement: React.ReactNode = null;
+
+  if (typeof icon === "string" && iconMap[icon]) {
+    const IconComponent = iconMap[icon];
+    iconElement = <IconComponent size={48} color="var(--color-ocean-700)" />;
+  } else {
+    iconElement = icon;
+  }
+
   return (
     <div
       className={`
@@ -28,8 +43,14 @@ export default function EmptyState({
         ${className}
       `}
     >
-      {icon && (
-        <div className="mb-4 text-5xl">{icon}</div>
+      {iconElement && (
+        <div className="mb-4 flex justify-center">
+          {typeof iconElement === "string" ? (
+            <div className="text-5xl">{iconElement}</div>
+          ) : (
+            iconElement
+          )}
+        </div>
       )}
       <h3
         className="text-xl font-bold mb-2"

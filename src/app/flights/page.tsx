@@ -6,7 +6,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Container, Button, Card, Badge, HeroImage, Modal } from '@/components';
+import { Container, Button, Card, Badge, HeroImage, Modal, TakeoffIcon, AirplaneIcon } from '@/components';
 import { formatMoney, formatDate } from '@/lib/format';
 import Image from 'next/image';
 
@@ -338,7 +338,13 @@ export default function FlightsPage() {
                   {/* Flight Info */}
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="text-2xl">{flight.airline === 'Emirates' ? '🛫' : flight.airline === 'Kenya Airways' ? '✈️' : '🌍'}</div>
+                      <div>
+                        {flight.airline === 'Emirates' ? (
+                          <TakeoffIcon size={24} color="var(--color-ocean-700)" />
+                        ) : (
+                          <AirplaneIcon size={24} color="var(--color-ocean-700)" />
+                        )}
+                      </div>
                       <div>
                         <h3 className="font-bold" style={{ color: 'var(--color-ink)' }}>
                           {flight.airline} • {flight.flightNumber}

@@ -12,6 +12,12 @@ import {
   Container,
   Modal,
   EmptyState,
+  CalendarIcon,
+  GuestsIcon,
+  RoomsIcon,
+  AirplaneIcon,
+  CheckmarkIcon,
+  CancelIcon,
 } from "@/components";
 
 export default function BookingsPage() {
@@ -158,7 +164,7 @@ export default function BookingsPage() {
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className="px-4 py-2 rounded-lg font-medium transition-all"
+                className="px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2"
                 style={{
                   backgroundColor:
                     tab === t ? "var(--color-ocean-700)" : "white",
@@ -169,9 +175,24 @@ export default function BookingsPage() {
                       : "1px solid var(--color-border)",
                 }}
               >
-                {t === "upcoming" && "✈️ Upcoming"}
-                {t === "past" && "✓ Past"}
-                {t === "cancelled" && "✕ Cancelled"}
+                {t === "upcoming" && (
+                  <>
+                    <AirplaneIcon size={18} />
+                    Upcoming
+                  </>
+                )}
+                {t === "past" && (
+                  <>
+                    <CheckmarkIcon size={18} />
+                    Past
+                  </>
+                )}
+                {t === "cancelled" && (
+                  <>
+                    <CancelIcon size={18} />
+                    Cancelled
+                  </>
+                )}
               </button>
             ))}
           </div>
@@ -199,10 +220,10 @@ export default function BookingsPage() {
             <EmptyState
               icon={
                 tab === "upcoming"
-                  ? "🏖️"
+                  ? "beach"
                   : tab === "past"
-                  ? "📝"
-                  : "🚫"
+                  ? "list"
+                  : "search"
               }
               title={
                 tab === "upcoming"
@@ -292,12 +313,15 @@ export default function BookingsPage() {
                       }}
                     >
                       <div>
-                        <p
-                          className="text-xs font-600 mb-1"
-                          style={{ color: "var(--color-muted)" }}
-                        >
-                          📅 CHECK IN
-                        </p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <CalendarIcon size={16} color="var(--color-muted)" />
+                          <p
+                            className="text-xs font-600"
+                            style={{ color: "var(--color-muted)" }}
+                          >
+                            CHECK IN
+                          </p>
+                        </div>
                         <p
                           className="font-medium"
                           style={{ color: "var(--color-ink)" }}
@@ -306,12 +330,15 @@ export default function BookingsPage() {
                         </p>
                       </div>
                       <div>
-                        <p
-                          className="text-xs font-600 mb-1"
-                          style={{ color: "var(--color-muted)" }}
-                        >
-                          📅 CHECK OUT
-                        </p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <CalendarIcon size={16} color="var(--color-muted)" />
+                          <p
+                            className="text-xs font-600"
+                            style={{ color: "var(--color-muted)" }}
+                          >
+                            CHECK OUT
+                          </p>
+                        </div>
                         <p
                           className="font-medium"
                           style={{ color: "var(--color-ink)" }}
@@ -320,12 +347,15 @@ export default function BookingsPage() {
                         </p>
                       </div>
                       <div>
-                        <p
-                          className="text-xs font-600 mb-1"
-                          style={{ color: "var(--color-muted)" }}
-                        >
-                          👥 GUESTS
-                        </p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <GuestsIcon size={16} color="var(--color-muted)" />
+                          <p
+                            className="text-xs font-600"
+                            style={{ color: "var(--color-muted)" }}
+                          >
+                            GUESTS
+                          </p>
+                        </div>
                         <p
                           className="font-medium"
                           style={{ color: "var(--color-ink)" }}
@@ -334,12 +364,15 @@ export default function BookingsPage() {
                         </p>
                       </div>
                       <div>
-                        <p
-                          className="text-xs font-600 mb-1"
-                          style={{ color: "var(--color-muted)" }}
-                        >
-                          🏠 ROOMS
-                        </p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <RoomsIcon size={16} color="var(--color-muted)" />
+                          <p
+                            className="text-xs font-600"
+                            style={{ color: "var(--color-muted)" }}
+                          >
+                            ROOMS
+                          </p>
+                        </div>
                         <p
                           className="font-medium"
                           style={{ color: "var(--color-ink)" }}

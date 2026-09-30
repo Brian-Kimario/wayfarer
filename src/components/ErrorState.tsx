@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./Button";
+import { WarningIcon } from "./Icons";
 
 interface ErrorStateProps {
   title: string;
@@ -26,7 +27,9 @@ export default function ErrorState({
         ${className}
       `}
     >
-      <div className="mb-4 text-4xl">⚠️</div>
+      <div className="mb-4 flex justify-center">
+        <WarningIcon size={48} color="var(--color-error)" />
+      </div>
       <h3
         className="text-lg font-bold mb-2"
         style={{ color: "var(--color-error)" }}
