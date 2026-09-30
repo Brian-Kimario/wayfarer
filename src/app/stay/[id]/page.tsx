@@ -67,7 +67,7 @@ export default async function StayDetailPage({ params, searchParams }: StayDetai
                 Amenities
               </p>
               <div className="flex flex-wrap gap-2">
-                {stay.amenities.map((amenity) => (
+                {stay.amenities.map((amenity: string) => (
                   <span
                     key={amenity}
                     className="text-xs px-2 py-1 rounded"
