@@ -1,16 +1,78 @@
 @import "tailwindcss";
 
 :root {
-  --brand: #003580;
-  --action: #0071c2;
-  --action-dark: #00487a;
-  --accent: #febb02;
-  --good: #008009;
-  --alert: #d4111e;
-  --ink: #262626;
-  --muted: #6b6b6b;
-  --line: #e0e0e0;
-  --page: #f5f5f5;
+  /* Primary Brand Colors - Ocean & Maritime */
+  --color-ocean-950: #123B4A;
+  --color-ocean-700: #1E6678;
+  --color-sea-glass: #6FA7A2;
+
+  /* Neutral Warmth - Sand & Earth */
+  --color-sand: #E9D8BD;
+  --color-ivory: #FAF8F3;
+
+  /* Text & Structure */
+  --color-ink: #172126;
+  --color-muted: #68757A;
+  --color-border: #DDE3E1;
+  --color-surface: #F2F5F3;
+
+  /* Accent & Status Colors */
+  --color-sunset: #D96C4F;
+  --color-terracotta: #B9573F;
+  --color-gold: #E6B85C;
+  --color-success: #287A62;
+  --color-error: #B84040;
+
+  /* Semantic mappings for legacy support and clarity */
+  --brand: var(--color-ocean-950);
+  --action: var(--color-ocean-700);
+  --action-dark: var(--color-ocean-950);
+  --accent: var(--color-sunset);
+  --good: var(--color-success);
+  --alert: var(--color-error);
+  --ink: var(--color-ink);
+  --muted: var(--color-muted);
+  --line: var(--color-border);
+  --page: var(--color-ivory);
+
+  /* Spacing scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* Typography */
+  --font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+
+  /* Line heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Border radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+
+  /* Shadows - restrained */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
   color-scheme: light;
 }
 
@@ -21,18 +83,22 @@
 }
 
 html {
-  font-size: 14px;
+  font-size: 16px;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--page);
-  color: var(--ink);
-  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-family);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 button {
   font-family: inherit;
+  cursor: pointer;
 }
 
 input,
@@ -43,18 +109,56 @@ textarea {
 }
 
 a {
-  color: var(--action);
+  color: var(--color-ocean-700);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: var(--color-ocean-950);
 }
 
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible {
-  outline: 2px solid var(--action);
+  outline: 2px solid var(--color-ocean-700);
   outline-offset: 2px;
+}
+
+/* Utility classes for common patterns */
+.visually-hidden,
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Allow sr-only to be visible on focus */
+.sr-only.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+.container-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.container-narrow {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
 }
